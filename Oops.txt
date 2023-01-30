@@ -1,0 +1,435 @@
+-------------------------------------------Abstract class sum of two and three-----------------------------
+abstract class Sum {
+    abstract void sumOfTwo(int n1, int n2);
+    abstract void sumOfThree(int n1, int n2, int n3);
+}
+
+class Addition extends Sum {
+    void sumOfTwo(int n1, int n2) {
+        System.out.println("Sum of " + n1 + " and " + n2 + " is: " + (n1+n2));
+    }
+    void sumOfThree(int n1, int n2, int n3) {
+        System.out.println("Sum of " + n1 + ", " + n2 + " and " + n3 + " is: " + (n1+n2+n3));
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Addition a = new Addition();
+        a.sumOfTwo(5, 10);
+        a.sumOfThree(5, 10, 15);
+    }
+}
+-----------------------------------------------------------Generic class-------------------------------------------
+
+class Pair<T>
+
+{
+
+private T first,second;
+
+public Pair(T first,T second)
+
+{
+
+this.first=first;
+
+this.second=second;
+
+}
+
+public T getFirst()
+
+{
+
+return first;
+
+}
+
+public T getSecond()
+
+{
+
+return second;
+
+}
+
+}
+
+class generic_class_main
+
+{
+
+public static void main(String args[])
+
+{
+
+Pair<Integer>p1=new Pair(20,66);
+
+Pair<Float>p2=new Pair(54.9,34.8);
+
+Pair<String>p3=new Pair("Kumar","Senthil");
+
+System.out.println("P1 : "+p1.getFirst()+" "+p1.getSecond());
+
+System.out.println("P2 : "+p2.getFirst()+" "+p2.getSecond());
+
+System.out.println("P3 : "+p3.getFirst()+" "+p3.getSecond());
+
+}
+
+}
+------------------------------------------------Month generator-----------------------------------
+
+import java.util.Scanner;
+
+public class MonthGenerator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number between 1 and 12: ");
+        int input = scanner.nextInt();
+        String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        if (input >= 1 && input <= 12) {
+            System.out.println("The month is: " + months[input - 1]);
+        } else {
+            System.out.println("Invalid input.");
+        }
+    }
+}
+-------------------Index out of bound---------------------------------------------------------
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = new int[]{1, 2, 3};
+        try {
+            System.out.println("Value at index 3: " + arr[3]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Array IndexOutOfBound Exception: Index out of range.");
+        }
+    }
+}
+
+public class ArrayIndexOutOfBoundsExample {
+  public static void main(String[] args) {
+    int[] numbers = new int[5];
+    try {
+      for (int i = 0; i <= numbers.length; i++) {
+        System.out.println(numbers[i]);
+      }
+    } catch (ArrayIndexOutOfBoundsException e) {
+      System.out.println("Index out of bounds!");
+  }
+ }
+
+------------------------------------------------------------Calculate GPA--------------------------------
+
+import java.util.Scanner;
+
+class Subject {
+    private int mark;
+    private int credits;
+    private String name;
+    private String code;
+
+    public Subject(int mark, int credits, String name, String code) throws InvalidMarkException, InvalidCreditsException {
+        if(mark < 0 || mark > 100) {
+            throw new InvalidMarkException("Invalid mark for subject " + name);
+        }
+        if(credits <= 0) {
+            throw new InvalidCreditsException("Invalid credits for subject " + name);
+        }
+        this.mark = mark;
+        this.credits = credits;
+        this.name = name;
+        this.code = code;
+    }
+
+    public int getMark() {
+        return mark;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+}
+
+class InvalidMarkException extends Exception {
+    public InvalidMarkException(String message) {
+        super(message);
+    }
+}
+
+class InvalidCreditsException extends Exception {
+    public InvalidCreditsException(String message) {
+        super(message);
+    }
+}
+
+public class GPA {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        Subject[] subjects = new Subject[5];
+        int totalCredits = 0;
+        double totalPoints = 0;
+        for(int i = 0; i < 5; i++) {
+            System.out.print("Enter subject name: ");
+            String name = input.nextLine();
+            System.out.print("Enter subject code: ");
+            String code = input.nextLine();
+            System.out.print("Enter subject mark: ");
+            int mark = input.nextInt();
+            System.out.print("Enter subject credits: ");
+            int credits = input.nextInt();
+            input.nextLine();
+            try {
+                subjects[i] = new Subject(mark, credits, name, code);
+                totalCredits += credits;
+                totalPoints += mark * credits;
+            } catch (InvalidMarkException e) {
+                System.out.println(e.getMessage());
+            } catch (InvalidCreditsException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        double gpa = totalPoints / totalCredits;
+        System.out.println("GPA: " + gpa);
+    }
+}
+--------------------------------------------Prime no using Interface------------------------------
+
+from typing import List, Interface
+
+class PrimeChecker(Interface):
+    def is_prime(self, number: int) -> bool:
+        pass
+
+class PrimeNumberChecker(PrimeChecker):
+    def is_prime(self, number: int) -> bool:
+        if number < 2:
+            return False
+        for i in range(2, int(number ** 0.5) + 1):
+            if number % i == 0:
+                return False
+        return True
+
+def check_primes(numbers: List[int], checker: PrimeChecker) -> List[int]:
+    return [number for number in numbers if checker.is_prime(number)]
+
+# usage example
+numbers_to_check = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+prime_checker = PrimeNumberChecker()
+print(check_primes(numbers_to_check, prime_checker))
+# Output: [2, 3, 5, 7]
+
+-----------------------------------------------------Calculator-------------------------------------------------------
+
+// Java program to create a simple calculator
+// with basic +, -, /, * using java swing elements
+
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.*;
+class calculator extends JFrame implements ActionListener {
+	// create a frame
+	static JFrame f;
+
+	// create a textfield
+	static JTextField l;
+
+	// store operator and operands
+	String s0, s1, s2;
+
+	// default constructor
+	calculator()
+	{
+		s0 = s1 = s2 = "";
+	}
+
+	// main function
+	public static void main(String args[])
+	{
+		// create a frame
+		f = new JFrame("calculator");
+
+		try {
+			// set look and feel
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+
+		// create a object of class
+		calculator c = new calculator();
+
+		// create a textfield
+		l = new JTextField(16);
+
+		// set the textfield to non editable
+		l.setEditable(false);
+
+		// create number buttons and some operators
+		JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, ba, bs, bd, bm, be, beq, beq1;
+
+		// create number buttons
+		b0 = new JButton("0");
+		b1 = new JButton("1");
+		b2 = new JButton("2");
+		b3 = new JButton("3");
+		b4 = new JButton("4");
+		b5 = new JButton("5");
+		b6 = new JButton("6");
+		b7 = new JButton("7");
+		b8 = new JButton("8");
+		b9 = new JButton("9");
+
+		// equals button
+		beq1 = new JButton("=");
+
+		// create operator buttons
+		ba = new JButton("+");
+		bs = new JButton("-");
+		bd = new JButton("/");
+		bm = new JButton("*");
+		beq = new JButton("C");
+
+		// create . button
+		be = new JButton(".");
+
+		// create a panel
+		JPanel p = new JPanel();
+
+		// add action listeners
+		bm.addActionListener(c);
+		bd.addActionListener(c);
+		bs.addActionListener(c);
+		ba.addActionListener(c);
+		b9.addActionListener(c);
+		b8.addActionListener(c);
+		b7.addActionListener(c);
+		b6.addActionListener(c);
+		b5.addActionListener(c);
+		b4.addActionListener(c);
+		b3.addActionListener(c);
+		b2.addActionListener(c);
+		b1.addActionListener(c);
+		b0.addActionListener(c);
+		be.addActionListener(c);
+		beq.addActionListener(c);
+		beq1.addActionListener(c);
+
+		// add elements to panel
+		p.add(l);
+		p.add(ba);
+		p.add(b1);
+		p.add(b2);
+		p.add(b3);
+		p.add(bs);
+		p.add(b4);
+		p.add(b5);
+		p.add(b6);
+		p.add(bm);
+		p.add(b7);
+		p.add(b8);
+		p.add(b9);
+		p.add(bd);
+		p.add(be);
+		p.add(b0);
+		p.add(beq);
+		p.add(beq1);
+
+		// set Background of panel
+		p.setBackground(Color.blue);
+
+		// add panel to frame
+		f.add(p);
+
+		f.setSize(200, 220);
+		f.show();
+	}
+	public void actionPerformed(ActionEvent e)
+	{
+		String s = e.getActionCommand();
+
+		// if the value is a number
+		if ((s.charAt(0) >= '0' && s.charAt(0) <= '9') || s.charAt(0) == '.') {
+			// if operand is present then add to second no
+			if (!s1.equals(""))
+				s2 = s2 + s;
+			else
+				s0 = s0 + s;
+
+			// set the value of text
+			l.setText(s0 + s1 + s2);
+		}
+		else if (s.charAt(0) == 'C') {
+			// clear the one letter
+			s0 = s1 = s2 = "";
+
+			// set the value of text
+			l.setText(s0 + s1 + s2);
+		}
+		else if (s.charAt(0) == '=') {
+
+			double te;
+
+			// store the value in 1st
+			if (s1.equals("+"))
+				te = (Double.parseDouble(s0) + Double.parseDouble(s2));
+			else if (s1.equals("-"))
+				te = (Double.parseDouble(s0) - Double.parseDouble(s2));
+			else if (s1.equals("/"))
+				te = (Double.parseDouble(s0) / Double.parseDouble(s2));
+			else
+				te = (Double.parseDouble(s0) * Double.parseDouble(s2));
+
+			// set the value of text
+			l.setText(s0 + s1 + s2 + "=" + te);
+
+			// convert it to string
+			s0 = Double.toString(te);
+
+			s1 = s2 = "";
+		}
+		else {
+			// if there was no operand
+			if (s1.equals("") || s2.equals(""))
+				s1 = s;
+			// else evaluate
+			else {
+				double te;
+
+				// store the value in 1st
+				if (s1.equals("+"))
+					te = (Double.parseDouble(s0) + Double.parseDouble(s2));
+				else if (s1.equals("-"))
+					te = (Double.parseDouble(s0) - Double.parseDouble(s2));
+				else if (s1.equals("/"))
+					te = (Double.parseDouble(s0) / Double.parseDouble(s2));
+				else
+					te = (Double.parseDouble(s0) * Double.parseDouble(s2));
+
+				// convert it to string
+				s0 = Double.toString(te);
+
+				// place the operator
+				s1 = s;
+
+				// make the operand blank
+				s2 = "";
+			}
+
+			// set the value of text
+			l.setText(s0 + s1 + s2);
+		}
+	}
+}
+
